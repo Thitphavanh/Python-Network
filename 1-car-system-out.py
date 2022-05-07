@@ -1,11 +1,6 @@
 import socket
 import csv
-
-
-# -------------IP Adress-------------
-serverip = '192.168.0.54'
-port = 8888
-buffsize = 4096
+import uuid
 
 
 #  ----------------CSV----------------
@@ -15,6 +10,14 @@ def writeToCsv(data):
         file_writer = csv.writer(file)
         file_writer.writerow(data)
     print('csv saved')
+
+
+# -------------IP Adress-------------
+serverip = '192.168.0.54'
+port = 8888
+buffsize = 4096
+
+car_dict = {}
 
 
 while True:
@@ -29,6 +32,10 @@ while True:
 
     data = client.recv(buffsize).decode('utf-8')
     print('Data from client : ', data)
+
+    key = str(uuid.uuid1()).split('-')[0]
+    car_dict[key] = data.split('|')
+
     writeToCsv(data.split('|'))
     # ບັນທຶກຂໍ່ມູນທີ່ໄດ້ຮັບຈາກ [2]
     # write to csv

@@ -3,12 +3,6 @@ from datetime import datetime
 import csv
 
 
-# -------------IP Adress-------------
-serverip = '192.168.0.54'
-port = 8888
-buffsize = 4096
-
-
 #  ----------------CSV----------------
 def writeToCsv(data):
     # data = ['Tesla','black','AF1234','1001','2022-05-07 16:01:20']
@@ -16,6 +10,12 @@ def writeToCsv(data):
         file_writer = csv.writer(file)
         file_writer.writerow(data)
     print('csv saved')
+
+
+# -------------IP Adress-------------
+serverip = '192.168.0.54'
+port = 8888
+buffsize = 4096
 
 
 while True:
