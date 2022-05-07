@@ -8,21 +8,21 @@ buffsize = 4096
 
 
 while True:
-    server = socket.socket()
-    server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-    server.bind((serverip, port))
-    server.listen(1)
-    print('waiting client...')
+	server = socket.socket()
+	server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+	server.bind((serverip, port))
+	server.listen(1)
+	print('waiting client...')
 
-    client, addr = server.accept()
-    print('connected from : ', add)
+	client, addr = server.accept()
+	print('connected from : ', addr)
 
-    data = client.recv(buffsize).decode('utf-8')
-    print('Data from client : ', data)
-    # ບັນທຶກຂໍ່ມູນທີ່ໄດ້ຮັບຈາກ [2]
-    # write to csv
-    client.send('received your message.'.encode('utf-8'))
-    client.close()
+	data = client.recv(buffsize).decode('utf-8')
+	print('Data from client : ', data)
+	# ບັນທຶກຂໍ່ມູນທີ່ໄດ້ຮັບຈາກ [2]
+	# write to csv
+	client.send('saved'.encode('utf-8'))
+	client.close()
 
 
 '''

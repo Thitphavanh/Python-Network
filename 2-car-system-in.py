@@ -1,4 +1,5 @@
 import socket
+from datetime import datetime
 
 # -------------IP Adress-------------
 serverip = '192.168.0.54'
@@ -7,29 +8,37 @@ buffsize = 4096
 
 
 while True:
-    # server = socket.socket()
-    # server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-    # server.connect((serverip, port))
+	server = socket.socket()
+	server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+	server.connect((serverip, port))
 
-    # ບັນທຶກຂໍ້ມູນລົດ ຍີ່ຫໍ້ ສີ ປ້າຍທະບຽນ ບັດ
-    information = {'brand': {'q': 'Brand : ', 'value': ''},
-                   'color': {'q': 'Color : ', 'value': ''},
-                   'plate': {'q': 'Plate : ', 'value': ''},
-                   'card': {'q': 'Card : ', 'value': ''}}
+	# ບັນທຶກຂໍ້ມູນລົດ ຍີ່ຫໍ້ ສີ ປ້າຍທະບຽນ ບັດ
+	information = {'brand': {'q': 'Brand : ', 'value': ''},
+				   'color': {'q': 'Color : ', 'value': ''},
+				   'plate': {'q': 'Plate : ', 'value': ''},
+				   'card': {'q': 'Card : ', 'value': ''}}
 
-    # timestamp
-    # data = input('Send to server : ')
+	timestamp = datetime.now().strftime('%Y-%m-%d, %H:%M:%S')
+	# data = input('Send to server : ')
 
-    for k, v in information.items():
-        d = input(v['q'])
-        information[k]['value'] = d
+	for k, v in information.items():
+		d = input(v['q'])
+		information[k]['value'] = d
 
-    print(information)
+	text = ''
 
-    # server.send(data.encode('utf-8'))
-    # data_server = server.recv(buffsize).decode('utf-8')
-    # print('Data from server : ', data_server)
-    # server.close()
+	print(information)
+
+	for v in information.values():
+		text += v['value'] + '|'
+
+	text += timestamp
+	print(text)
+
+	server.send(text.encode('utf-8'))
+	data_server = server.recv(buffsize).decode('utf-8')
+	print('Data from server : ', data_server)
+	server.close()
 
 
 '''
