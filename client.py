@@ -10,9 +10,9 @@ for i in range(10):
     server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
     server.connect((serverip, port))
 
-    data = input('Send to server :')
+    data = input('Send to server : ')
     server.send(data.encode('utf-8'))
 
     data_server = server.recv(buffsize).decode('utf-8')
-    print('Data from server :', data_server)
+    print('Data from server : ', data_server)
     server.close()
