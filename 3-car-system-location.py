@@ -5,11 +5,26 @@ import csv
 
 #  ----------------CSV----------------
 def writeToCsv(data):
-	# data = ['Tesla','black','AF1234','1001','2022-05-07 16:01:20']
-	with open('2-car-system-in.csv', 'a', newline='', encoding='utf-8') as file:
-		file_writer = csv.writer(file)
-		file_writer.writerow(data)
-	print('csv saved')
+    # data = ['Tesla','black','AF1234','1001','2022-05-07 16:01:20']
+    with open('2-car-system-in.csv', 'a', newline='', encoding='utf-8') as file:
+        file_writer = csv.writer(file)
+        file_writer.writerow(data)
+    print('csv saved')
+
+
+#  ----------------Split----------------
+def splitrow(datalist, columns=7):
+    result = []
+    buflist = []
+    for i, t in enumerate(datalist, start=1):
+        if i % columns == 0:
+            buflist.append(t)
+            # print(buflist)
+            result.append(buflist)
+            buflist = []
+        else:
+            buflist.append(t)
+    return result
 
 
 # -------------IP Adress-------------
@@ -19,24 +34,27 @@ buffsize = 4096
 
 
 while True:
-	q = input(
-		'[1] - get multiple car information\n[2] - get single car information\n[q] - exit\n>>>')
-	if q == '1':
-		text = 'location|allcar'
-	elif q == '2':
-		getcar = 'Enter plate code : '
-		text = 'location|{}'.format(getcar)
-	elif q == 'q':
-		break
+    q = input(
+        '[1] - get multiple car information\n[2] - get single car information\n[q] - exit\n>>>')
+    if q == '1':
+        text = 'location|allcar'
+    elif q == '2':
+        getcar = 'Enter plate code : '
+        text = 'location|{}'.format(getcar)
+    elif q == 'q':
+        break
 
-	# conntect and send
-	server = socket.socket()
-	server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-	server.connect((serverip, port))
-	server.send(text.encode('utf-8'))
-	data_server = server.recv(buffsize).decode('utf-8')
-	print('Data from server : ', data_server)
-	server.close()
+    # conntect and send
+    server = socket.socket()
+    server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+    server.connect((serverip, port))
+    server.send(text.encode('utf-8'))
+    data_server = server.recv(buffsize).decode('utf-8')
+    print('Data from server : ', data_server)
+    datalist = data_server.split('|')[1:-1]  # [1:-1] remove prefix and subfix
+    for row in splitrow(datalist, 7):
+        print(row)
+    server.close()
 
 
 '''
