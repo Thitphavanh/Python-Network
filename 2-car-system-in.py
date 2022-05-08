@@ -26,7 +26,7 @@ while True:
 				   'plate': {'q': 'Plate : ', 'value': ''},
 				   'card': {'q': 'Card : ', 'value': ''}}
 
-	timestamp = datetime.now().strftime('%Y-%m-%d, %H:%M:%S')
+	timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 	# data = input('Send to server : ')
 
 	for k, v in information.items():
@@ -53,6 +53,7 @@ while True:
 	data_server = server.recv(buffsize).decode('utf-8')
 	print('Data from server : ', data_server)
 	server.close()
+	print('----------------------------')
 
 
 '''
