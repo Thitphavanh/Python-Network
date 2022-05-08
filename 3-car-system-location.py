@@ -1,6 +1,53 @@
 import socket
 from datetime import datetime
 import csv
+import threading
+
+
+#  ----------------Threading Server----------------
+plate_dict = {}
+# plate_dict = {'ກຄ8888':['14564644','14564544','14564744']}
+
+serverip_location = '192.168.0.54'
+port_location = 8888
+buffsize_location = 4096
+
+
+def locationServer():
+    while True:
+        server = socket.socket()
+        server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+        server.bind((serverip_location, port_location))
+        server.listen(1)
+        print('waiting client...')
+
+        client, addr = server.accept()
+        print('connected from : ', addr)
+
+        data = client.recv(buffsize_location).decode('utf-8')
+        print('Data from client : ', data)
+
+        # data from 4 : data = 'check|ກຄ8888'
+        # ມາຈາກໂປຣແກຣມຝຝັ່ງໃດ in / location / check
+        source = data.split('|')[0]
+        plate = data.split('|')[1]  # 'ກຄ8888'
+
+        if source == 'check':
+            # ['in', 'Tesla', 'red', 'AA8888', '1001', '2022-05-08, 11:41:42', '41c83a9c']
+            check = plate_dict[plate]
+            text = 'location|'
+            for c in check:
+                text += c + '|'
+
+            client.send(text.encode('utf-8'))
+            client.close()
+        else:
+            client.close()
+
+
+#  ----------------Run Thread----------------
+task = threading.Thread(target=locationServer)
+task.start()
 
 
 #  ----------------CSV----------------
@@ -13,7 +60,7 @@ def writeToCsv(data):
 
 
 #  ----------------Split----------------
-def splitrow(datalist, columns=7):
+def splitRow(datalist, columns=7):
     result = []
     buflist = []
     for i, t in enumerate(datalist, start=1):
@@ -35,7 +82,7 @@ buffsize = 4096
 
 while True:
     q = input(
-        '[1] - get multiple car information\n[2] - get single car information\n[q] - exit\n>>>')
+        '[1] - get multiple car information\n[2] - get single car information\n[q] - exit\n>>> ')
     if q == '1':
         text = 'location|allcar'
     elif q == '2':
@@ -52,8 +99,10 @@ while True:
     data_server = server.recv(buffsize).decode('utf-8')
     print('Data from server : ', data_server)
     datalist = data_server.split('|')[1:-1]  # [1:-1] remove prefix and subfix
-    for row in splitrow(datalist, 7):
+    for row in splitRow(datalist, 7):
         print(row)
+        # ['in', 'Tesla', 'red', 'AA8888', '1001', '2022-05-08, 11:41:42', '41c83a9c']
+        plate_dict[row[4]] = row  # ບັນທຶກຂໍ້ມູນຂອງລົດເກັບໄວ້ເປັນ dict
     server.close()
 
 

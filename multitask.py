@@ -33,9 +33,9 @@ task2.start()
 
 
 # ເມື່ອເຮັດວຽກແລ້ວໆ ໃຫ້ຫຍຸດຖ້າໜ່ອຍໜຶ່ງ
-task1.join()
-task2.join()
+# task1.join()
+# task2.join()
 
 t2 = time.time()
 
-print('Time : ', t2-t1)
+print('Time : ', t2 - t1)
