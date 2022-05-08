@@ -16,9 +16,9 @@ def calculateCarHour(dt='2022-05-08 12:27:18', first_hour=20, next_hour=10):
 	print('Parking time: {} Hours {} minutes'.format(hour, minute))
 	total = []
 	if hour > 1:
-		# ชั่วโมงแรก
-		total.append(first_hour)  # ชั่วโมงแรก 20
-		total.append((hour - 1) * next_hour)  # ชั่วโมงถัดไป
+		# ຊົ່ວໂມງທຳອິດ
+		total.append(first_hour)  # ຊົ່ວໂມງທຳອິດ 20
+		total.append((hour - 1) * next_hour)  # ຊົ່ວໂມງຖັດໄປ
 	elif hour == 1:
 		total.append(first_hour)
 
@@ -83,7 +83,7 @@ def outServer():
 		elif source == 'location':
 			text = 'out|'
 			for k, v in car_dict.items():
-				# text += k + '|' 
+				# text += k + '|' ບໍ່ຕ້ອງສົ່ງ key ໄປ ເພາະມີການພິມໃສ່ແລ້ວ
 				for dt in v:
 					text += dt + '|'
 
@@ -122,7 +122,7 @@ while True:
 		print('---------------')
 		q = input('Select Car : ')
 
-		if q == 'R':
+		if q == 'R' or q == '':
 			continue
 
 		# ['41c83a9c','in', 'Tesla', 'red', 'AA8888', '1001', '2022-05-08, 11:41:42']
