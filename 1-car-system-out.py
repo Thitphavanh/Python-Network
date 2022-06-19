@@ -22,15 +22,15 @@ def calculateCarHour(dt='2022-05-08 12:27:18', first_hour=20, next_hour=10):
 	elif hour == 1:
 		total.append(first_hour)
 
-	if minute > 15 and hour >= 1:
+	if minute > 10000 and hour >= 1:
 		total.append(next_hour)
-	elif minute > 15 and hour == 0:
+	elif minute > 10000 and hour == 0:
 		total.append(first_hour)
-	elif minute < 15:
+	elif minute < 10000:
 		pass
 
 	cal = sum(total)
-	print('Car park fee: {} baht'.format(cal))
+	print('Car park fee: {} LAK'.format(cal))
 
 
 # calculateCarHour('2022-05-08 8:27:18')
