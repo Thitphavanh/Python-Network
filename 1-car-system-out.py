@@ -6,7 +6,7 @@ from datetime import datetime
 
 
 #  ----------------Fee----------------
-def calculateCarHour(dt='2022-05-08 12:27:18', first_hour=20, next_hour=10):
+def calculateCarHour(dt='2022-05-08 12:27:18', first_hour=10000, next_hour=7000):
 	# only hour and minute
 	convert = datetime.strptime(dt, '%Y-%m-%d %H:%M:%S')
 	now = datetime.now()
@@ -22,18 +22,18 @@ def calculateCarHour(dt='2022-05-08 12:27:18', first_hour=20, next_hour=10):
 	elif hour == 1:
 		total.append(first_hour)
 
-	if minute > 10000 and hour >= 1:
+	if minute > 15 and hour >= 1:
 		total.append(next_hour)
-	elif minute > 10000 and hour == 0:
+	elif minute > 15 and hour == 0:
 		total.append(first_hour)
-	elif minute < 10000:
+	elif minute < 15:
 		pass
 
 	cal = sum(total)
 	print('Car park fee: {} LAK'.format(cal))
 
 
-# calculateCarHour('2022-05-08 8:27:18')
+calculateCarHour('2022-06-19 11:30:00')
 
 
 #  ----------------CSV----------------
@@ -92,7 +92,7 @@ def outServer():
 			client.close()
 		else:
 			pass
-
+			
 
 task = threading.Thread(target=outServer)
 task.start()
@@ -141,6 +141,8 @@ while True:
 			del car_dict[car[0]]  # clear data
 
 		print('----------------------------')
+
+
 
 '''
 [1]-car-system-out.py
